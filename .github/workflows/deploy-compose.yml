@@ -1,0 +1,28 @@
+name: Deploy Compose en máquina local
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, local]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Mostrar carpeta de trabajo
+        run: |
+          pwd
+          ls -la
+
+      - name: Bajar stack anterior
+        run: docker compose down --remove-orphans
+
+      - name: Levantar stack
+        run: docker compose up -d
+
+      - name: Estado del stack
+        run: docker compose ps
